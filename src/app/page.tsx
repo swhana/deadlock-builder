@@ -5,9 +5,17 @@ import { items } from "./data";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Home() {
   const [keyword, setKeyword] = useState("");
+  const [tc, setTc] = useState("title");
   const [itemList, setItemList] = useState(items);
 
   const weapons = itemList.filter((item) => item.type === "weapon");
@@ -19,8 +27,42 @@ export default function Home() {
   };
 
   useEffect(() => {
-    setItemList(items.filter((item) => item.localization.ko.includes(keyword)));
-  }, [keyword]);
+    if (tc === "title")
+      setItemList(
+        items.filter((item) => item.localization.ko.includes(keyword))
+      );
+    else if (tc === "content") {
+      const desc = items.filter((item) => item.desc?.ko.includes(keyword));
+
+      const active = items.filter((item) =>
+        item.active_desc?.ko.includes(keyword)
+      );
+
+      const ret = [...desc, ...active].filter(
+        (value, index, self) =>
+          index === self.findIndex((e) => value.id === e.id)
+      );
+
+      setItemList(ret);
+    } else {
+      const title = items.filter((item) =>
+        item.localization.ko.includes(keyword)
+      );
+
+      const desc = items.filter((item) => item.desc?.ko.includes(keyword));
+
+      const active = items.filter((item) =>
+        item.active_desc?.ko.includes(keyword)
+      );
+
+      const ret = [...title, ...desc, ...active].filter(
+        (value, index, self) =>
+          index === self.findIndex((e) => value.id === e.id)
+      );
+
+      setItemList(ret);
+    }
+  }, [keyword, tc]);
 
   window.addEventListener("input", search);
 
@@ -33,7 +75,19 @@ export default function Home() {
             <TabsTrigger value="armor">생명력</TabsTrigger>
             <TabsTrigger value="tech">스피릿</TabsTrigger>
           </TabsList>
-          <Input type="search" className="w-72" />
+          <div className="flex flex-row gap-4">
+            <Select onValueChange={(value) => setTc(value)}>
+              <SelectTrigger className="w-28">
+                <SelectValue placeholder="제목" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="title">제목</SelectItem>
+                <SelectItem value="content">내용</SelectItem>
+                <SelectItem value="titlecontent">제목+내용</SelectItem>
+              </SelectContent>
+            </Select>
+            <Input type="search" className="w-72" />
+          </div>
         </div>
 
         <TabsContent value="weapon">
