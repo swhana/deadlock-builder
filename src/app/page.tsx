@@ -22,8 +22,17 @@ export default function Home() {
   const armors = itemList.filter((item) => item.type === "armor");
   const techs = itemList.filter((item) => item.type === "tech");
 
+  let debounceTimer;
+
   const search = (e) => {
-    setKeyword(e.target.value);
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+
+    debounceTimer = setTimeout(() => {
+      setKeyword(e.target.value);
+      console.log(e.target.value);
+    }, 250);
   };
 
   useEffect(() => {
@@ -75,7 +84,7 @@ export default function Home() {
             <TabsTrigger value="armor">생명력</TabsTrigger>
             <TabsTrigger value="tech">스피릿</TabsTrigger>
           </TabsList>
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-row gap-2">
             <Select onValueChange={(value) => setTc(value)}>
               <SelectTrigger className="w-28">
                 <SelectValue placeholder="제목" />
