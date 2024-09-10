@@ -1,8 +1,9 @@
-import { Item, ItemStats } from "@/config/types";
+import { Item } from "@/config/types";
 import { colors } from "@/utils/colors";
-import { cn } from "@/utils/utils";
 import Image from "next/image";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import { itemStats } from "@/utils/locale";
+import { cn } from "@/lib/utils";
 
 const itemCost = (tier: number) => {
   if (tier === 1) return 500;
@@ -11,21 +12,28 @@ const itemCost = (tier: number) => {
   else return 6300;
 };
 
-const itemStats = (stats: ItemStats) => {
-  return Object.entries(stats);
-};
+interface Props {
+  item: Item;
+}
 
-export default function ItemCard(props: Item) {
+export default function ItemCard({ item }: Props) {
   const bgColor =
-    props.type === "weapon"
+    item.type === "weapon"
       ? colors.orange
-      : props.type === "armor"
+      : item.type === "armor"
       ? colors.green
       : colors.purple;
 
-  const cost = itemCost(props.tier);
+  const descColor =
+    item.type === "weapon"
+      ? colors.deeporange
+      : item.type === "armor"
+      ? colors.deepgreen
+      : colors.deeppurple;
 
-  const stats = props.stats ? itemStats(props.stats) : [];
+  const cost = itemCost(item.tier);
+
+  const stats = item.stats ? itemStats(item.stats, "ko") : [];
 
   return (
     <HoverCard>
@@ -38,9 +46,9 @@ export default function ItemCard(props: Item) {
             )}
           >
             <Image
-              key={props.id}
-              src={props.image}
-              alt={props.name}
+              key={item.id}
+              src={item.image}
+              alt={item.name}
               width={25}
               height={25}
               style={{
@@ -49,22 +57,45 @@ export default function ItemCard(props: Item) {
             />
           </div>
           <div className="w-24 h-12 bg-zinc-100 flex flex-col items-center justify-center font-bold text-xs rounded-b-md">
-            {props.localization.ko}
+            {item.localization.ko}
           </div>
         </div>
       </HoverCardTrigger>
       <HoverCardContent
-        className={cn("w-full rounded-md flex flex-col", bgColor)}
+        className={cn("w-96 rounded-md flex flex-col p-0", bgColor)}
         side="right"
       >
         <div>
-          <div className="text-white font-extrabold text-lg">
-            {props.localization.ko}
+          <div className="pt-4 px-4 pb-2">
+            <div className="text-white font-extrabold text-xl">
+              {item.localization.ko}
+            </div>
+            <div className="text-[#a8ffdc] font-bold">{cost}</div>
           </div>
-          <div>{cost}</div>
-          {stats.map(([key, value]) => (
-            <div key={key}>{key + ": " + value}</div>
-          ))}
+
+          <div className={cn(descColor, "rounded-b-md p-4 text-white")}>
+            {item.desc ? (
+              <div className="text-sm text-gray-100 font-semibold mb-2">
+                {item.desc.ko}
+              </div>
+            ) : (
+              <></>
+            )}
+            {item.active_desc ? (
+              <div className="text-sm text-gray-100 font-semibold mb-2">
+                {item.active_desc.ko}
+              </div>
+            ) : (
+              <></>
+            )}
+
+            {stats.map(([key, value]) => (
+              <div key={key} className="flex flex-row gap-1">
+                <div className="text-sm text-white font-semibold">{value}</div>
+                <div className="text-sm text-gray-100">{key}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </HoverCardContent>
     </HoverCard>

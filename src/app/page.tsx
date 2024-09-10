@@ -12,6 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+import ItemRow from "@/components/ItemRow";
 
 export default function Home() {
   const [keyword, setKeyword] = useState("");
@@ -22,7 +24,7 @@ export default function Home() {
   const armors = itemList.filter((item) => item.type === "armor");
   const techs = itemList.filter((item) => item.type === "tech");
 
-  let debounceTimer;
+  let debounceTimer: NodeJS.Timeout | null;
 
   const search = (e) => {
     if (debounceTimer) {
@@ -31,15 +33,20 @@ export default function Home() {
 
     debounceTimer = setTimeout(() => {
       setKeyword(e.target.value);
-      console.log(e.target.value);
     }, 250);
   };
 
   useEffect(() => {
-    if (tc === "title")
+    //검색어가 없으면 전체 리스트 리턴
+    if (keyword === "") {
+      setItemList(items);
+    }
+    //제목
+    else if (tc === "title")
       setItemList(
         items.filter((item) => item.localization.ko.includes(keyword))
       );
+    //내용
     else if (tc === "content") {
       const desc = items.filter((item) => item.desc?.ko.includes(keyword));
 
@@ -53,7 +60,9 @@ export default function Home() {
       );
 
       setItemList(ret);
-    } else {
+    }
+    //제목+내용
+    else {
       const title = items.filter((item) =>
         item.localization.ko.includes(keyword)
       );
@@ -80,9 +89,15 @@ export default function Home() {
       <Tabs defaultValue="weapon" className="w-[60vw] mt-12">
         <div className="flex flex-row justify-between">
           <TabsList className="grid grid-cols-3 w-[30vw]">
-            <TabsTrigger value="weapon">무기</TabsTrigger>
-            <TabsTrigger value="armor">생명력</TabsTrigger>
-            <TabsTrigger value="tech">스피릿</TabsTrigger>
+            <TabsTrigger value="weapon" className="font-semibold">
+              무기
+            </TabsTrigger>
+            <TabsTrigger value="armor" className="font-semibold">
+              생명력
+            </TabsTrigger>
+            <TabsTrigger value="tech" className="font-semibold">
+              스피릿
+            </TabsTrigger>
           </TabsList>
           <div className="flex flex-row gap-2">
             <Select onValueChange={(value) => setTc(value)}>
@@ -100,212 +115,24 @@ export default function Home() {
         </div>
 
         <TabsContent value="weapon">
-          <div className={styles.row}>
-            {weapons
-              .filter((weapon) => weapon.tier === 1)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                  stats={item.stats}
-                />
-              ))}
-          </div>
-          <div className={styles.row}>
-            {weapons
-              .filter((weapon) => weapon.tier === 2)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                  stats={item.stats}
-                />
-              ))}
-          </div>
-          <div className={styles.row}>
-            {weapons
-              .filter((weapon) => weapon.tier === 3)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                  stats={item.stats}
-                />
-              ))}
-          </div>
-          <div className={styles.row}>
-            {weapons
-              .filter((weapon) => weapon.tier === 4)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                  stats={item.stats}
-                />
-              ))}
-          </div>
+          <ItemRow types={weapons} tier={1} />
+          <ItemRow types={weapons} tier={2} />
+          <ItemRow types={weapons} tier={3} />
+          <ItemRow types={weapons} tier={4} />
         </TabsContent>
         <TabsContent value="armor">
-          <div className={styles.row}>
-            {armors
-              .filter((armor) => armor.tier === 1)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                />
-              ))}
-          </div>
-          <div className={styles.row}>
-            {armors
-              .filter((armor) => armor.tier === 2)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                />
-              ))}
-          </div>
-          <div className={styles.row}>
-            {armors
-              .filter((armor) => armor.tier === 3)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                />
-              ))}
-          </div>
-          <div className={styles.row}>
-            {armors
-              .filter((armor) => armor.tier === 4)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                />
-              ))}
-          </div>
+          <ItemRow types={armors} tier={1} />
+          <ItemRow types={armors} tier={2} />
+          <ItemRow types={armors} tier={3} />
+          <ItemRow types={armors} tier={4} />
         </TabsContent>
         <TabsContent value="tech">
-          <div className={styles.row}>
-            {techs
-              .filter((tech) => tech.tier === 1)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                />
-              ))}
-          </div>
-          <div className={styles.row}>
-            {techs
-              .filter((tech) => tech.tier === 2)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                />
-              ))}
-          </div>
-          <div className={styles.row}>
-            {techs
-              .filter((tech) => tech.tier === 3)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                />
-              ))}
-          </div>
-          <div className={styles.row}>
-            {techs
-              .filter((tech) => tech.tier === 4)
-              .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
-              .map((item) => (
-                <ItemCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  localization={item.localization}
-                  tier={item.tier}
-                  type={item.type}
-                />
-              ))}
-          </div>
+          <ItemRow types={techs} tier={1} />
+          <ItemRow types={techs} tier={2} />
+          <ItemRow types={techs} tier={3} />
+          <ItemRow types={techs} tier={4} />
         </TabsContent>
       </Tabs>
     </div>
   );
 }
-
-const styles = {
-  row: "row flex flex-row gap-2 max-w-[60vw] flex-wrap m-4",
-};

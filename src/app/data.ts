@@ -130,8 +130,8 @@ export const items: Item[] = [
     type: "weapon",
     image: "/Image/items/mods_weapon/pristine_emblem.png",
     desc: {
-      en: "Your attacks have additional Weapon Damage against enemies above {s:EnemyLifeThreshold}% health.",
-      ko: "적의 체력이 {s:EnemyLifeThreshold}% 이상일 때, 추가 무기 피해를 입힙니다.",
+      en: "Your attacks have additional Weapon Damage against enemies above 50% health.",
+      ko: "적의 체력이 50% 이상일 때, 추가 무기 피해를 입힙니다.",
     },
     stats: {
       weapon_damage: 25,
@@ -161,8 +161,8 @@ export const items: Item[] = [
     type: "armor",
     image: "/Image/items/mods_weapon/lifestrike_gauntlets.png",
     desc: {
-      en: "Your Melee attacks heal you for {s:LifestrikeHealPercent}% of the Melee Damage dealt plus {s:LifestrikeHeal}. This heal is {s:NonHeroHealPct}% effective vs non-heroes.",
-      ko: "당신의 근접 공격이 {s:LifestrikeHealPercent}%의 근접 피해에 해당하는 체력을 회복하며 {s:LifestrikeHeal}만큼 추가로 회복합니다. 이 회복 효과는 비영웅에게는 {s:NonHeroHealPct}% 효과적입니다.",
+      en: "Your Melee attacks heal you for 20% of the Melee Damage dealt plus 90. This heal is 40% effective vs non-heroes.",
+      ko: "당신의 근접 공격이 20%의 근접 피해에 해당하는 체력을 회복하며 90만큼 추가로 회복합니다. 이 회복 효과는 비영웅에게는 40% 효과적입니다.",
     },
     stats: {
       melee_damage: 15,
@@ -300,18 +300,18 @@ export const items: Item[] = [
       run_speed: 1,
     },
   },
-  {
-    id: 1113837674,
-    name: "upgrade_proc_silence",
-    localization: { en: "EMP Bullets", ko: "전자파 총탄" },
-    tier: 2,
-    type: "weapon",
-    image: "/Image/items/mods_weapon/emp_bullets.png",
-    desc: {
-      en: "Your bullets charge up an EMP on enemy heroes that will prevent targets from using abilities. Victims are immune to emp bullets for {s:ImmunityDuration}s after application expires.",
-      ko: "당신의 총알이 적 영웅에게 EMP를 충전시켜 대상이 능력을 사용하는 것을 방지합니다. 피해자는 적용이 만료된 후 {s:ImmunityDuration}s 동안 EMP 총알에 면역입니다.",
-    },
-  },
+  // {
+  //   id: 1113837674,
+  //   name: "upgrade_proc_silence",
+  //   localization: { en: "EMP Bullets", ko: "전자파 총탄" },
+  //   tier: 2,
+  //   type: "weapon",
+  //   image: "/Image/items/mods_weapon/emp_bullets.png",
+  //   desc: {
+  //     en: "Your bullets charge up an EMP on enemy heroes that will prevent targets from using abilities. Victims are immune to emp bullets for {s:ImmunityDuration}s after application expires.",
+  //     ko: "당신의 총알이 적 영웅에게 EMP를 충전시켜 대상이 능력을 사용하는 것을 방지합니다. 피해자는 적용이 만료된 후 {s:ImmunityDuration}s 동안 EMP 총알에 면역입니다.",
+  //   },
+  // },
   {
     id: 3133167885,
     name: "upgrade_silencer",
@@ -325,8 +325,8 @@ export const items: Item[] = [
     //   ko: '당신의 총알이 침묵된 대상에게 +{s:BonusBulletDamageToEMPTargets}% 피해를 줍니다. 당신의 총알이 적 영웅에게 EMP를 축적하여 그들의 능력 사용을 방지합니다.',
     // },
     active_desc: {
-      en: "For the next {s:AbilityDuration}s, all your bullets immediately apply Silence. Silence prevents targets from using abilities.",
-      ko: "다음 {s:AbilityDuration}s 동안, 모든 총알이 즉시 침묵 효과를 적용합니다. 침묵은 대상이 능력을 사용하는 것을 방지합니다.",
+      en: "For the next 4s, all your bullets immediately apply Silence. Silence prevents targets from using abilities.",
+      ko: "다음 4초 동안, 모든 총알이 즉시 침묵 효과를 적용합니다. 침묵은 대상이 능력을 사용하는 것을 방지합니다.",
     },
     stats: {
       bullet_slow_rate: 25,
@@ -358,8 +358,8 @@ export const items: Item[] = [
     type: "weapon",
     image: "/Image/items/mods_weapon/fervor.png",
     desc: {
-      en: "While you are below {s:LowHealthThreshold}% health, you gain stat bonuses.",
-      ko: "체력이 {s:LowHealthThreshold}% 이하일 때 능력치 보너스를 얻습니다.",
+      en: "While you are below 40% health, you gain stat bonuses.",
+      ko: "체력이 40% 이하일 때 능력치 보너스를 얻습니다.",
     },
     stats: { fbullet: 12, weapon_damage: 30, health: 200 },
   },
@@ -419,7 +419,7 @@ export const items: Item[] = [
     image: "/Image/items/mods_weapon/longshot.png",
     desc: {
       en: "Deal additional Weapon Damage when beyond a minimum distance from your target.",
-      ko: "대상과의 거리가 최소 거리 이상일 때 추가 무기 피해를 입힙니다.",
+      ko: "대상과의 거리가 15m 이상일 때 추가 무기 피해를 입힙니다.",
     },
     stats: {
       bullet: 20,
@@ -607,8 +607,8 @@ export const items: Item[] = [
       ko: "당신에게 적용된 모든 부정적인 효과의 지속 시간을 줄입니다.",
     },
     active_desc: {
-      en: "Purge all negative effects currently applied to you. If any effects were removed, gain a movement speed bonus. <br>Cannot be used while Stunned or Slept.",
-      ko: "모든 부정적인 효과를 제거합니다. 효과가 제거된 경우, 이동 속도 보너스를 얻습니다. <br>기절 또는 잠듦 상태에서는 사용할 수 없습니다.",
+      en: "Purge all negative effects currently applied to you. If any effects were removed, gain a movement speed bonus. Cannot be used while Stunned or Slept.",
+      ko: "모든 부정적인 효과를 제거합니다. 효과가 제거된 경우, 이동 속도 보너스를 얻습니다. 기절 또는 잠듦 상태에서는 사용할 수 없습니다.",
     },
     stats: {
       health: 125,
@@ -690,7 +690,7 @@ export const items: Item[] = [
     type: "armor",
     image: "/Image/items/mods_armor/healing_booster.png",
     desc: {
-      en: "Increases the effectiveness of your healing by 25% and increases your resistance to healing reduction by {s:DegenResistance}%.",
+      en: "Increases the effectiveness of your healing by 25% and increases your resistance to healing reduction by 25%.",
       ko: "당신의 치유 효과를 25% 증가시킵니다.",
     },
     stats: {
@@ -742,7 +742,7 @@ export const items: Item[] = [
     image: "/Image/items/mods_utility/sprint_booster.png",
     desc: {
       en: "Increases your forward movement speed over time. Taking damage resets the effect for 1.5s",
-      ko: "시간이 지남에 따라 전진 이동 속도가 증가합니다. 피해를 받으면 효과가 1.5s 동안 초기화됩니다.",
+      ko: "시간이 지남에 따라 전진 이동 속도가 증가합니다. 피해를 받으면 효과가 1.5초 동안 초기화됩니다.",
     },
     stats: {
       run_speed: 2,
@@ -822,7 +822,7 @@ export const items: Item[] = [
     image: "/Image/items/mods_armor/bullet_armor_reduction_aura.png",
     desc: {
       en: "Reduces nearby enemies' Bullet Resist and Fire Rate. If there is only one enemy hero nearby, this effect is tripled.",
-      ko: "근처의 적의 총탄 저항과 연사 속도를 감소시킵니다. 근처에 적 영웅이 하나만 있으면, 이 효과가 3배로 증가합니다.",
+      ko: "근처의 적의 총탄 저항과 연사 속도를 10% 감소시킵니다. 근처에 적 영웅이 하나만 있으면, 이 효과가 3배로 증가합니다.",
     },
     stats: {
       health: 150,
@@ -1029,8 +1029,8 @@ export const items: Item[] = [
     type: "tech",
     image: "/Image/items/mods_tech/magic_burst.png",
     desc: {
-      en: "Abilities deal bonus Spirit Damage if they deal {s:MinimumDamage} damage or more in a single hit.",
-      ko: "능력이 한 번의 타격으로 {s:MinimumDamage} 이상의 피해를 입히면 보너스 스피릿 피해를 추가로 입힙니다.",
+      en: "Abilities deal bonus Spirit Damage if they deal 80 damage or more in a single hit.",
+      ko: "능력이 한 번의 타격으로 80 이상의 피해를 입히면 보너스 스피릿 피해를 추가로 입힙니다.",
     },
     stats: {
       spirit_shield: 40,
@@ -1045,8 +1045,8 @@ export const items: Item[] = [
     type: "tech",
     image: "/Image/items/mods_tech/magic_shock.png",
     desc: {
-      en: "Abilities deal bonus Spirit Damage if they deal {s:MinimumDamage} damage or more in a single hit.<br/>Targets are immune to the effects of Improved Burst for {s:ReProcLockoutTime}s after taking damage from it.",
-      ko: "능력이 한 번의 타격으로 {s:MinimumDamage} 이상의 피해를 입히면 보너스 스피릿 피해를 추가로 입힙니다.<br/>대상은 이 피해를 받은 후 {s:ReProcLockoutTime}s 동안 고급 폭발의 효과에 면역이 됩니다.",
+      en: "Abilities deal bonus Spirit Damage if they deal 125 damage or more in a single hit. Targets are immune to the effects of Improved Burst for 5s after taking damage from it.",
+      ko: "능력이 한 번의 타격으로 125 이상의 피해를 입히면 보너스 스피릿 피해를 추가로 입힙니다. 대상은 이 피해를 받은 후 5초 동안 고급 폭발의 효과에 면역이 됩니다.",
     },
     stats: {
       spirit_shield: 100,
@@ -1173,8 +1173,8 @@ export const items: Item[] = [
     type: "tech",
     image: "/Image/items/mods_tech/immobilize.png",
     active_desc: {
-      en: "Deals Spirit Damage and Slows targets movement and dashes. Also Silences their movement-based items and abilities.<br>Does not affect target's stamina usage.",
-      ko: "대상에게 스피릿 피해를 입히고 이동 속도 둔화와 대시 속도를 감소시킵니다. 또한 이동 기반 아이템과 능력을 차단합니다.<br>대상의 스태미나 사용에는 영향을 미치지 않습니다.",
+      en: "Deals Spirit Damage and Slows targets movement and dashes. Also Silences their movement-based items and abilities. Does not affect target's stamina usage.",
+      ko: "대상에게 스피릿 피해를 입히고 이동 속도 둔화와 대시 속도를 감소시킵니다. 또한 이동 기반 아이템과 능력을 차단합니다. 대상의 스태미나 사용에는 영향을 미치지 않습니다.",
     },
     stats: {
       run_speed: 1,
@@ -1258,8 +1258,8 @@ export const items: Item[] = [
     type: "tech",
     image: "/Image/items/mods_tech/knockdown.png",
     active_desc: {
-      en: "Target is knocked down and Stunned after a {s:StunDelay}s delay, interrupting and temporarily preventing them from taking any action.",
-      ko: "대상이 {s:StunDelay}s 지연 시간 후넘어지고 기절하여, 행동을 방해하고 일시적으로 모든 행동을 하지 못하게 합니다.",
+      en: "Target is knocked down and Stunned after a 2s delay, interrupting and temporarily preventing them from taking any action.",
+      ko: "대상이 2초 지연 시간 후넘어지고 기절하여, 행동을 방해하고 일시적으로 모든 행동을 하지 못하게 합니다.",
     },
     stats: {
       stamina: 1,
@@ -1358,8 +1358,8 @@ export const items: Item[] = [
     type: "armor",
     image: "/Image/items/mods_utility/cloaking_device.png",
     active_desc: {
-      en: "Become invisible. Nearby enemies will temporaily reveal the hero.  Attacking or taking damage will remove the invisibility for {s:AbilityCooldown}s.",
-      ko: "투명해집니다. 근처의 적들은 영웅을 일시적으로 드러나게 합니다. 공격하거나 피해를 받으면 {s:AbilityCooldown}s 동안 투명 상태가 해제됩니다.",
+      en: "Become Stealthed. Whenever you take damage while Stealthed you get briefly revealed. Attacking or using an ability will end your stealth and start an ambush, temporarily granting you bonus Fire Rate and Spirit Power.",
+      ko: "은신 상태가 됩니다. 은신 상태에서 피해를 받으면 잠시 드러나게 됩니다. 공격하거나 능력을 사용하면 은신가 해제되고 기습 상태가 되어, 일시적으로 보너스 연사 속도와 스피릿 위력을 부여받습니다.",
     },
     stats: {
       health_regen: 15,
@@ -1376,8 +1376,8 @@ export const items: Item[] = [
     type: "armor",
     image: "/Image/abilities/lash/lash_death_slam.png",
     active_desc: {
-      en: "Launch yourself high into the air. While in the air, you can use the active again to drop down faster.<br>Cannot be used for {s:InteruptCooldown}s if attacked by enemy Hero.",
-      ko: "높이 도약합니다. 공중에 있는 동안 다시 활성화하여 더 빠르게 떨어질 수 있습니다.<br>적 영웅에게 공격받으면 {s:InteruptCooldown}s 동안 사용할 수 없습니다.",
+      en: "Launch yourself high into the air. While in the air, you can use the active again to drop down faster. Cannot be used for 5s if attacked by enemy Hero.",
+      ko: "높이 도약합니다. 공중에 있는 동안 다시 활성화하여 더 빠르게 떨어질 수 있습니다. 적 영웅에게 공격받으면 5초 동안 사용할 수 없습니다.",
     },
     stats: {
       spirit_damage: 10,
@@ -1478,8 +1478,8 @@ export const items: Item[] = [
     type: "weapon",
     image: "/Image/items/mods_weapon/thermal_detonator.png",
     active_desc: {
-      en: "Throw a flask that explodes on contact, creating an area that does increasing Spirit Damage per second and causes enemies to receive additional Weapon Damage from your team.<br><br>Deals {s:NonHeroReductionPercent}% less DPS vs non-heroes.",
-      ko: "접촉 시 폭발하는 플라스크를 던져, 초당 증가하는 스피릿 피해를 발생시키고 적이 팀의 추가 무기 피해를 받게 합니다.<br><br>비영웅에게는 {s:NonHeroReductionPercent}% 낮은 DPS를 제공합니다.",
+      en: "Throw a flask that explodes on contact, creating an area that does increasing Spirit Damage per second and causes enemies to receive additional Weapon Damage from your team. Deals 40% less DPS vs non-heroes.",
+      ko: "접촉 시 폭발하는 플라스크를 던져, 초당 증가하는 스피릿 피해를 발생시키고 적이 팀의 추가 무기 피해를 받게 합니다. 비영웅에게는 40% 낮은 DPS를 제공합니다.",
     },
     stats: {
       bullet_shield: 225,
@@ -1515,8 +1515,8 @@ export const items: Item[] = [
     type: "weapon",
     image: "/Image/items/mods_weapon/kinetic_sash.png",
     desc: {
-      en: "Your next Dash-Jump does not cost an extra stamina and you gain Fire Rate and bonus Ammo until your next reload. Lasts up to {s:AbilityDuration}s.",
-      ko: "다음 대시 점프에 추가 스태미나가 소모되지 않으며, 다음 재장전까지 연사 속도와 보너스 탄약을 얻습니다. 최대 {s:AbilityDuration}초 동안 지속됩니다.",
+      en: "Your next Dash-Jump does not cost an extra stamina and you gain Fire Rate and bonus Ammo until your next reload. Lasts up to 8s.",
+      ko: "다음 대시 점프에 추가 스태미나가 소모되지 않으며, 다음 재장전까지 연사 속도와 보너스 탄약을 얻습니다. 최대 8초 동안 지속됩니다.",
     },
     stats: {
       health: 100,
@@ -1583,8 +1583,8 @@ export const items: Item[] = [
     type: "tech",
     image: "/Image/items/mods_tech/shifting_shroud.png",
     active_desc: {
-      en: "You enter a void state and become untargetable and invincible for a short duration, during which you cannot move or perform any actions. Afterwards you instantly reload and gain bonus Spirit Power.<br>Press [{s:in_mantle}] to cancel early.",
-      ko: "공허 상태에 들어가 대상 불가 및 무적 상태가 되며, 이 동안 이동하거나 어떤 행동도 할 수 없습니다. 이후 즉시 재장전하고 보너스 스피릿 위력을 얻습니다.<br>[{s:in_mantle}]을 눌러 일찍 종료할 수 있습니다.",
+      en: "You enter a void state and become untargetable and invincible for a short duration, during which you cannot move or perform any actions. Afterwards you instantly reload and gain bonus Spirit Power. Press [SPACE] to cancel early.",
+      ko: "공허 상태에 들어가 대상 불가 및 무적 상태가 되며, 이 동안 이동하거나 어떤 행동도 할 수 없습니다. 이후 즉시 재장전하고 보너스 스피릿 위력을 얻습니다. [SPACE]를 눌러 일찍 종료할 수 있습니다.",
     },
   },
 
@@ -1649,8 +1649,8 @@ export const items: Item[] = [
     type: "weapon",
     image: "/Image/items/mods_weapon/glass_cannon.png",
     desc: {
-      en: "Each hero kill grants permanent Weapon Damage (up to a max of {s:MaxStacks} times).  Death results in the loss of 1 stack.",
-      ko: "각 영웅 처치 시 영구 무기 피해 중첩을 하나 얻습니다(최대 {s:MaxStacks}회까지). 사망 시 중첩 하나를 잃습니다.",
+      en: "Each hero kill grants permanent Weapon Damage (up to a max of 5 times).  Death results in the loss of 1 stack.",
+      ko: "각 영웅 처치 시 영구 무기 피해 중첩을 하나 얻습니다(최대 5회까지). 사망 시 중첩 하나를 잃습니다.",
     },
     stats: {
       weapon_damage: 70,
@@ -1685,8 +1685,8 @@ export const items: Item[] = [
     type: "armor",
     image: "/Image/items/mods_armor/boxing_glove.png",
     desc: {
-      en: "Your Melee Attack applies Movement Slow and heals you for {s:LifestealHealPercent}% of the Melee Damage dealt plus {s:LifestealHeal}. This heal is {s:NonHeroHealPct}% effective vs non-heroes.",
-      ko: "당신의 근접 공격은 이동 속도 둔화를 적용하고, 근접 피해의 {s:LifestealHealPercent}% 만큼 자신을 치유합니다. 이 치유는 비영웅에게는 {s:NonHeroHealPct}% 효과적입니다.",
+      en: "Your Melee Attack applies Movement Slow and heals you for 55% of the Melee Damage dealt plus LifeStealHeal. This heal is 40% effective vs non-heroes.",
+      ko: "당신의 근접 공격은 이동 속도 둔화를 적용하고, 근접 피해의 55%와 생명력 흡수만큼 자신을 치유합니다. 이 치유는 비영웅에게는 40% 효과적입니다.",
     },
     stats: {
       melee_damage: 40,
@@ -1951,8 +1951,8 @@ export const items: Item[] = [
     type: "weapon",
     image: "/Image/items/mods_utility/deployable_bullet_shield.png",
     desc: {
-      en: "While reloading, pressing [{s:key_reload}] during the highlighted portion will instantly finish your reload and grant you Fire Rate and Bullet Lifesteal.",
-      ko: "재장전 중 표시된 구간에서 [{s:key_reload}]를 누르면 재장전을 즉시 완료하고 연사 속도와 총탄 흡혈을 얻습니다.",
+      en: "While reloading, pressing reload key during the highlighted portion will instantly finish your reload and grant you Fire Rate and Bullet Lifesteal.",
+      ko: "재장전 중 표시된 구간에서 재장전 키를 누르면 재장전을 즉시 완료하고 연사 속도와 총탄 흡혈을 얻습니다.",
     },
     stats: {
       weapon_damage: 10,
