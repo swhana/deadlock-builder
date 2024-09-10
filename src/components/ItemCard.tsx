@@ -1,9 +1,13 @@
+"use client";
+
 import { Item } from "@/config/types";
 import { colors } from "@/utils/colors";
 import Image from "next/image";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { itemStats } from "@/utils/locale";
 import { cn } from "@/lib/utils";
+import { useRecoilState } from "recoil";
+import { selectedItemAtom } from "@/state";
 
 const itemCost = (tier: number) => {
   if (tier === 1) return 500;
@@ -17,6 +21,22 @@ interface Props {
 }
 
 export default function ItemCard({ item }: Props) {
+  const [selectedItems, setSelectedItems] = useRecoilState(selectedItemAtom);
+  const isSelected = selectedItems.some((selected) => selected.id === item.id);
+
+  const toggleSelectItem = () => {
+    //이미 선택한 아이템인 경우 선택해제
+    if (isSelected) {
+      setSelectedItems(
+        selectedItems.filter((selected) => selected.id !== item.id)
+      );
+    }
+    //선택
+    else {
+      setSelectedItems([...selectedItems, item]);
+    }
+  };
+
   const bgColor =
     item.type === "weapon"
       ? colors.orange
@@ -32,32 +52,42 @@ export default function ItemCard({ item }: Props) {
       : colors.deeppurple;
 
   const cost = itemCost(item.tier);
-
   const stats = item.stats ? itemStats(item.stats, "ko") : [];
 
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <div className="w-24 h-24 rounded-md flex flex-col shadow-md">
+        <div
+          className={
+            isSelected
+              ? "border-2 border-cyan-500 rounded-lg"
+              : "border-2 border-white rounded-lg"
+          }
+        >
           <div
-            className={cn(
-              bgColor,
-              "w-24 h-12 flex justify-center items-center rounded-t-md"
-            )}
+            className={"w-24 h-24 rounded-md flex flex-col shadow-md"}
+            onClick={toggleSelectItem}
           >
-            <Image
-              key={item.id}
-              src={item.image}
-              alt={item.name}
-              width={25}
-              height={25}
-              style={{
-                filter: "invert(80%)",
-              }}
-            />
-          </div>
-          <div className="w-24 h-12 bg-zinc-100 flex flex-col items-center justify-center font-bold text-xs rounded-b-md">
-            {item.localization.ko}
+            <div
+              className={cn(
+                bgColor,
+                "w-24 h-12 flex justify-center items-center rounded-t-md"
+              )}
+            >
+              <Image
+                key={item.id}
+                src={item.image}
+                alt={item.name}
+                width={25}
+                height={25}
+                style={{
+                  filter: "invert(80%)",
+                }}
+              />
+            </div>
+            <div className="w-24 h-12 bg-zinc-100 flex flex-col items-center justify-center font-bold text-xs rounded-b-md">
+              {item.localization.ko}
+            </div>
           </div>
         </div>
       </HoverCardTrigger>
