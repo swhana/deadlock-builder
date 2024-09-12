@@ -59,3 +59,8 @@ export type ItemStats = {
   charge_cooldown?: number; //충전 쿨다운 감소(%)
   reduce_spirit_resist?: number; //상대 스피릿 저항 감소(스피릿 피해에 대한 스피릿 저항이라고 하는데 잘 모르겠음)
 };
+
+export type ItemBuild = {
+  name: string;
+  build: Item[];
+};

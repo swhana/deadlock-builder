@@ -1,7 +1,7 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -13,26 +13,14 @@ import {
 import ItemRow from "@/components/ItemRow";
 import { items } from "@/app/data";
 
-import { useRecoilValue } from "recoil";
-import {
-  armorItemAtom,
-  flexItemAtom,
-  techItemAtom,
-  totalItemStatsSelector,
-  weaponItemAtom,
-} from "@/state";
-import ItemCard from "./ItemCard";
+import Stats from "./Stats";
+import ItemBuild from "./ItemBuild";
 
 export default function Item() {
   const [keyword, setKeyword] = useState("");
   const [tc, setTc] = useState("title");
   const [itemList, setItemList] = useState(items);
-
-  const totalStats = useRecoilValue(totalItemStatsSelector);
-  const selectedWeapons = useRecoilValue(weaponItemAtom);
-  const selectedArmors = useRecoilValue(armorItemAtom);
-  const selectedTechs = useRecoilValue(techItemAtom);
-  const selectedFlexs = useRecoilValue(flexItemAtom);
+  const searchInputRef = useRef(null);
 
   const weapons = itemList.filter((item) => item.type === "weapon");
   const armors = itemList.filter((item) => item.type === "armor");
@@ -49,6 +37,11 @@ export default function Item() {
       setKeyword(e.target.value);
     }, 250);
   };
+
+  document.addEventListener("input", (e) => {
+    if (searchInputRef.current === e.target) search(e);
+    else return;
+  });
 
   useEffect(() => {
     //검색어가 없으면 전체 리스트 리턴
@@ -98,8 +91,6 @@ export default function Item() {
     }
   }, [keyword, tc]);
 
-  window.addEventListener("input", search);
-
   return (
     <div className="flex justify-center w-full h-[100vh]">
       <Tabs defaultValue="weapon" className="w-[60vw] mt-12">
@@ -129,33 +120,12 @@ export default function Item() {
                 <SelectItem value="titlecontent">제목+내용</SelectItem>
               </SelectContent>
             </Select>
-            <Input type="search" className="w-72" />
+            <Input className="w-72" ref={searchInputRef} />
           </div>
         </div>
 
         <TabsContent value="build">
-          <div>
-            <div className="row flex flex-row gap-2 max-w-[60vw] flex-wrap m-4">
-              {selectedWeapons.map((item) => (
-                <ItemCard key={item.id} item={item} border={false} />
-              ))}
-            </div>
-            <div className="row flex flex-row gap-2 max-w-[60vw] flex-wrap m-4">
-              {selectedArmors.map((item) => (
-                <ItemCard key={item.id} item={item} border={false} />
-              ))}
-            </div>
-            <div className="row flex flex-row gap-2 max-w-[60vw] flex-wrap m-4">
-              {selectedTechs.map((item) => (
-                <ItemCard key={item.id} item={item} border={false} />
-              ))}
-            </div>
-            <div className="row flex flex-row gap-2 max-w-[60vw] flex-wrap m-4">
-              {selectedFlexs.map((item) => (
-                <ItemCard key={item.id} item={item} border={false} />
-              ))}
-            </div>
-          </div>
+          <ItemBuild />
         </TabsContent>
         <TabsContent value="weapon">
           <ItemRow types={weapons} tier={1} />
@@ -177,20 +147,7 @@ export default function Item() {
         </TabsContent>
       </Tabs>
 
-      <div className="m-12 w-[180px]">
-        {Object.entries(totalStats).map((stat) => {
-          const name = stat[1][0];
-          const value = stat[1][1];
-          if (value === "0" || value === "0%") return;
-
-          return (
-            <div key={stat[0]} className="flex flex-row gap-2">
-              <div className="font-bold">{value}</div>
-              <div className="">{name}</div>
-            </div>
-          );
-        })}
-      </div>
+      <Stats />
     </div>
   );
 }

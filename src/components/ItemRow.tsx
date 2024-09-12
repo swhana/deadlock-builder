@@ -15,7 +15,7 @@ const ItemRow = ({ types, tier }: Props) => {
         {filtered
           .sort((a, b) => (a.localization.ko > b.localization.ko ? 1 : -1))
           .map((item) => (
-            <ItemCard key={item.id} item={item} />
+            <ItemCard key={item.id} item={item} border />
           ))}
       </div>
       {filtered.length !== 0 ? <hr /> : <></>}
