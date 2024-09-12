@@ -1,12 +1,22 @@
 import { selector } from "recoil";
-import { selectedItemAtom } from "../atoms/itemAtom";
+import {
+  armorItemAtom,
+  flexItemAtom,
+  techItemAtom,
+  weaponItemAtom,
+} from "../atoms/itemAtom";
 import { ItemStats } from "@/config/types";
 import { itemStats } from "@/utils/locale";
 
-export const totalItemSelector = selector({
-  key: "totalItemSelector",
+export const totalItemStatsSelector = selector({
+  key: "totalItemStatsSelector",
   get: ({ get }) => {
-    const selectedItems = get(selectedItemAtom);
+    const weapons = get(weaponItemAtom);
+    const armors = get(armorItemAtom);
+    const techs = get(techItemAtom);
+    const flexs = get(flexItemAtom);
+
+    const totalItems = [...weapons, ...armors, ...techs, ...flexs];
 
     const initialStats: ItemStats = {
       bullet_speed: 0,
@@ -50,7 +60,7 @@ export const totalItemSelector = selector({
     };
 
     // itemstat 합산 로직
-    const totalStats = selectedItems.reduce((acc: ItemStats, item) => {
+    const totalStats = totalItems.reduce((acc: ItemStats, item) => {
       // 각 속성에 대해 합산 처리
       if (item.stats !== undefined) {
         for (const [statKey, statValue] of Object.entries(item.stats)) {
@@ -63,5 +73,19 @@ export const totalItemSelector = selector({
     }, initialStats);
 
     return itemStats(totalStats, "ko");
+  },
+});
+
+export const totalItemSelector = selector({
+  key: "totalItemSelector",
+  get: ({ get }) => {
+    const weapons = get(weaponItemAtom);
+    const armors = get(armorItemAtom);
+    const techs = get(techItemAtom);
+    const flexs = get(flexItemAtom);
+
+    const totalItems = [...weapons, ...armors, ...techs, ...flexs];
+
+    return totalItems;
   },
 });

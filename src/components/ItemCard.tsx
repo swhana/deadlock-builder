@@ -6,8 +6,14 @@ import Image from "next/image";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { itemStats } from "@/utils/locale";
 import { cn } from "@/lib/utils";
-import { useRecoilState } from "recoil";
-import { selectedItemAtom } from "@/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  armorItemAtom,
+  flexItemAtom,
+  techItemAtom,
+  totalItemSelector,
+  weaponItemAtom,
+} from "@/state";
 
 const itemCost = (tier: number) => {
   if (tier === 1) return 500;
@@ -18,22 +24,58 @@ const itemCost = (tier: number) => {
 
 interface Props {
   item: Item;
+  border: boolean;
 }
 
-export default function ItemCard({ item }: Props) {
-  const [selectedItems, setSelectedItems] = useRecoilState(selectedItemAtom);
-  const isSelected = selectedItems.some((selected) => selected.id === item.id);
+export default function ItemCard({ item, border = true }: Props) {
+  const [weapons, setWeapons] = useRecoilState(weaponItemAtom);
+  const [armors, setArmors] = useRecoilState(armorItemAtom);
+  const [techs, setTechs] = useRecoilState(techItemAtom);
+  const [flexs, setFlexs] = useRecoilState(flexItemAtom);
+  const totalItems = useRecoilValue(totalItemSelector);
+
+  const isSelected = totalItems.some((e) => e.id === item.id);
 
   const toggleSelectItem = () => {
     //이미 선택한 아이템인 경우 선택해제
     if (isSelected) {
-      setSelectedItems(
-        selectedItems.filter((selected) => selected.id !== item.id)
-      );
+      switch (item.type) {
+        case "weapon": {
+          setWeapons(weapons.filter((weapon) => weapon.id !== item.id));
+          setFlexs(flexs.filter((flex) => flex.id !== item.id));
+          break;
+        }
+        case "armor": {
+          setArmors(armors.filter((armor) => armor.id !== item.id));
+          setFlexs(flexs.filter((flex) => flex.id !== item.id));
+          break;
+        }
+        case "tech": {
+          setTechs(techs.filter((tech) => tech.id !== item.id));
+          setFlexs(flexs.filter((flex) => flex.id !== item.id));
+          break;
+        }
+      }
     }
     //선택
     else {
-      setSelectedItems([...selectedItems, item]);
+      switch (item.type) {
+        case "weapon": {
+          if (weapons.length < 4) setWeapons([...weapons, item]);
+          else if (flexs.length < 4) setFlexs([...flexs, item]);
+          break;
+        }
+        case "armor": {
+          if (armors.length < 4) setArmors([...armors, item]);
+          else if (flexs.length < 4) setFlexs([...flexs, item]);
+          break;
+        }
+        case "tech": {
+          if (techs.length < 4) setTechs([...techs, item]);
+          else if (flexs.length < 4) setFlexs([...flexs, item]);
+          break;
+        }
+      }
     }
   };
 
@@ -59,7 +101,7 @@ export default function ItemCard({ item }: Props) {
       <HoverCardTrigger asChild>
         <div
           className={
-            isSelected
+            isSelected && border
               ? "border-2 border-cyan-500 rounded-lg"
               : "border-2 border-white rounded-lg"
           }

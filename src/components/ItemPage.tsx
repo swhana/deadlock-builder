@@ -12,16 +12,27 @@ import {
 } from "@/components/ui/select";
 import ItemRow from "@/components/ItemRow";
 import { items } from "@/app/data";
-import { totalItemSelector } from "@/state/selectors/totalItemSelector";
+
 import { useRecoilValue } from "recoil";
-import ObjSet from "@/lib/set";
+import {
+  armorItemAtom,
+  flexItemAtom,
+  techItemAtom,
+  totalItemStatsSelector,
+  weaponItemAtom,
+} from "@/state";
+import ItemCard from "./ItemCard";
 
 export default function Item() {
   const [keyword, setKeyword] = useState("");
   const [tc, setTc] = useState("title");
   const [itemList, setItemList] = useState(items);
 
-  const totalStats = useRecoilValue(totalItemSelector);
+  const totalStats = useRecoilValue(totalItemStatsSelector);
+  const selectedWeapons = useRecoilValue(weaponItemAtom);
+  const selectedArmors = useRecoilValue(armorItemAtom);
+  const selectedTechs = useRecoilValue(techItemAtom);
+  const selectedFlexs = useRecoilValue(flexItemAtom);
 
   const weapons = itemList.filter((item) => item.type === "weapon");
   const armors = itemList.filter((item) => item.type === "armor");
@@ -83,7 +94,6 @@ export default function Item() {
       );
 
       // const ret = new ObjSet([...title, ...desc, ...active]).toArray();
-
       setItemList(ret);
     }
   }, [keyword, tc]);
@@ -94,7 +104,10 @@ export default function Item() {
     <div className="flex justify-center w-full h-[100vh]">
       <Tabs defaultValue="weapon" className="w-[60vw] mt-12">
         <div className="flex flex-row justify-between">
-          <TabsList className="grid grid-cols-3 w-[30vw]">
+          <TabsList className="grid grid-cols-4 w-[30vw]">
+            <TabsTrigger value="build" className="font-semibold">
+              빌드
+            </TabsTrigger>
             <TabsTrigger value="weapon" className="font-semibold">
               무기
             </TabsTrigger>
@@ -120,6 +133,30 @@ export default function Item() {
           </div>
         </div>
 
+        <TabsContent value="build">
+          <div>
+            <div className="row flex flex-row gap-2 max-w-[60vw] flex-wrap m-4">
+              {selectedWeapons.map((item) => (
+                <ItemCard key={item.id} item={item} border={false} />
+              ))}
+            </div>
+            <div className="row flex flex-row gap-2 max-w-[60vw] flex-wrap m-4">
+              {selectedArmors.map((item) => (
+                <ItemCard key={item.id} item={item} border={false} />
+              ))}
+            </div>
+            <div className="row flex flex-row gap-2 max-w-[60vw] flex-wrap m-4">
+              {selectedTechs.map((item) => (
+                <ItemCard key={item.id} item={item} border={false} />
+              ))}
+            </div>
+            <div className="row flex flex-row gap-2 max-w-[60vw] flex-wrap m-4">
+              {selectedFlexs.map((item) => (
+                <ItemCard key={item.id} item={item} border={false} />
+              ))}
+            </div>
+          </div>
+        </TabsContent>
         <TabsContent value="weapon">
           <ItemRow types={weapons} tier={1} />
           <ItemRow types={weapons} tier={2} />
@@ -146,7 +183,12 @@ export default function Item() {
           const value = stat[1][1];
           if (value === "0" || value === "0%") return;
 
-          return <div key={stat[0]}>{value + " " + name}</div>;
+          return (
+            <div key={stat[0]} className="flex flex-row gap-2">
+              <div className="font-bold">{value}</div>
+              <div className="">{name}</div>
+            </div>
+          );
         })}
       </div>
     </div>

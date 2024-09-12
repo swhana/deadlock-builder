@@ -7,3 +7,20 @@ export const selectedItemAtom = atom<Item[]>({
   key: "selectedItemAtom",
   default: [],
 });
+
+export const weaponItemAtom = atom<Item[]>({
+  key: "weaponItemAtom",
+  default: [],
+});
+export const armorItemAtom = atom<Item[]>({
+  key: "armorItemAtom",
+  default: [],
+});
+export const techItemAtom = atom<Item[]>({
+  key: "techItemAtom",
+  default: [],
+});
+export const flexItemAtom = atom<Item[]>({
+  key: "flexItemAtom",
+  default: [],
+});
