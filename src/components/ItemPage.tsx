@@ -14,6 +14,7 @@ import ItemRow from "@/components/ItemRow";
 import { items } from "@/app/data";
 import { totalItemSelector } from "@/state/selectors/totalItemSelector";
 import { useRecoilValue } from "recoil";
+import ObjSet from "@/lib/set";
 
 export default function Item() {
   const [keyword, setKeyword] = useState("");
@@ -61,6 +62,7 @@ export default function Item() {
           index === self.findIndex((e) => value.id === e.id)
       );
 
+      // const ret = new ObjSet([...desc, ...active]).toArray();
       setItemList(ret);
     }
     //제목+내용
@@ -79,6 +81,8 @@ export default function Item() {
         (value, index, self) =>
           index === self.findIndex((e) => value.id === e.id)
       );
+
+      // const ret = new ObjSet([...title, ...desc, ...active]).toArray();
 
       setItemList(ret);
     }
